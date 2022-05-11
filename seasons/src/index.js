@@ -1,9 +1,11 @@
 import React from "react";
 import ReactDOM from "react-dom";
+import SeasonDisplay from './SeasonDisplay';
+import Spinner from './Spinner.js'
+//import "semantic-ui-css/semantic.min.css"; 
+// npm install semantic-ui-css
 
 class App extends React.Component {
-    // eslint-disable-next-line no-useless-constructor
-
     state = { lat: null, errorMessage: '' };
 
     componentDidMount() {
@@ -13,16 +15,22 @@ class App extends React.Component {
         );
     }
 
-    // react says we have to define render!!
-    // eslint-disable-next-line react/require-render-return
-    render() {
+    renderContent() {
         if (this.state.errorMessage && !this.state.lat) {
             return <div> Error: {this.state.errorMessage} </div>
         }
         if (!this.state.errorMessage && this.state.lat) {
-            return <div> Latitude: {this.state.lat} </div>
+            return <SeasonDisplay lat={this.state.lat} />
         }
-        return <div> Loading! </div>
+        return <Spinner message="Please accept location request" />
+    }
+
+    render() {
+        return (
+            <div className="border-red">
+                {this.renderContent()}
+            </div>
+        )
     }
 }
 
